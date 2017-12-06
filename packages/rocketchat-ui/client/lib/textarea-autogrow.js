@@ -64,22 +64,20 @@
 				}
 
 				if(newHeight === $self[0].offsetHeight){
-					return;
+					return true;
 				}
 
+				var overflow = 'hidden';
 				if(maxHeight <= newHeight){
-					return;
+					newHeight = maxHeight;
+					overflow = ''
+				} else {
+					overflow = 'hidden'
 				}
-
-				$self.css('overflow-y', 'hidden');
 
 				$self.stop().animate( { height: newHeight }, { duration: 100, complete: ()=> {
 					$self.trigger('autogrow', []);
-					$self.css('overflow-y', '');
-				}});
-
-
-
+				}}).css('overflow', overflow);
 
 				$self.trigger('autogrow', []);
 
@@ -88,7 +86,7 @@
 				}
 			};
 
-			$self.on('focus, change, keyup, keydown, input', update);
+			$self.on('focus change input', update);
 			$(window).resize(update);
 
 			update();
